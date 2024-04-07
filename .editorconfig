@@ -1,0 +1,28 @@
+
+
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+indent_style = space
+insert_final_newline = true
+max_line_length = 140
+tab_width = 4
+ij_smart_tabs = false
+ij_visual_guides = 80,120,140,256
+ij_wrap_on_typing = false
+
+
+[*.{js,ts,tsx,scss,css,yml,json,html}]
+indent_size = 2
+
+[*.{java,gradle,kts}]
+indent_size = 4
+
+
