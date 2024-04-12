@@ -1,28 +1,46 @@
 {
-    "configurations": [
+  "configurations": [
+    {
+      "type": "node",
+      "name": "vscode-jest-tests.v2.salary-calculater",
+      "request": "launch",
+      "args": [
+        "test",
+        "--",
+        "--runInBand",
+        "--watchAll=false",
+        "--testNamePattern",
+        "${jest.testNamePattern}",
+        "--runTestsByPath",
+        "${jest.testFile}"
+      ],
+      "cwd": "/Volumes/Data/workplace/playground/reactjs/salary-calculater",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "${workspaceRoot}/node_modules/**/*.*",
+        "<node_internals>/**/*.*"
+      ]
+    },
+    {
+      "name": "Launch Firefox",
+      "type": "firefox",
+      "request": "launch",
+      "reAttach": true,
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/src",
+      "pathMappings": [
         {
-            "type": "node",
-            "name": "vscode-jest-tests.v2.salary-calculater",
-            "request": "launch",
-            "args": [
-                "test",
-                "--",
-                "--runInBand",
-                "--watchAll=false",
-                "--testNamePattern",
-                "${jest.testNamePattern}",
-                "--runTestsByPath",
-                "${jest.testFile}"
-            ],
-            "cwd": "/Volumes/Data/workplace/playground/reactjs/salary-calculater",
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            "disableOptimisticBPs": true,
-            "runtimeExecutable": "npm",
-            "skipFiles": [
-              "${workspaceRoot}/node_modules/**/*.*",
-              "<node_internals>/**/*.*"
-            ]
+          "url": "http://localhost:5173/src",
+          "path": "${workspaceFolder}/src"
+        },
+        {
+          "url": "http://localhost:5173/home/rando/dev/sandbox/src",
+          "path": "${workspaceFolder}/src"
         }
-    ]
+      ]
+    }
+  ]
 }

@@ -1,11 +1,20 @@
 export enum Period {
-  Annually,
-  Monthly,
-  Fortnightly,
-  Weekly,
-  Daily,
-  Hourly,
+  Annually = "Annually",
+  Monthly = "Monthly",
+  Fortnightly = "Fortnightly",
+  Weekly = "Weekly",
+  Daily = "Daily",
+  Hourly = "Hourly",
 }
+
+export const INCOME_PERIOD_LIST = [
+  Period.Hourly,
+  Period.Daily,
+  Period.Weekly,
+  Period.Fortnightly,
+  Period.Monthly,
+  Period.Annually,
+];
 
 export class Income {
   amount: number = 0;
