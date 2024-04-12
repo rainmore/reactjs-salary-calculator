@@ -2,89 +2,82 @@ import React, { useState } from "react";
 import "./App.css";
 import { Calculator, DataInput, Result } from "./models/Calculator";
 import ResultView from "./ResultView";
+import { TaxThresholds } from "./models/TaxThresholds";
+import { INCOME_PERIOD_LIST, Period } from "./models/Income";
 
 const calculator = new Calculator();
-const RESULT_DEFAULT = calculator.calculate(new DataInput());
+const FORM_DATA = new DataInput();
+const RESULT_DEFAULT = calculator.calculate(FORM_DATA);
+const TAX_THRESHOLDS = new TaxThresholds().getYears();
 
-function App() {
-  
-  const [formData, setFormData] = useState(RESULT_DEFAULT.input);
-  const [result, setResult] = useState(RESULT_DEFAULT);
+export default function App() {
+  const [result, setResult] = useState<Result>(RESULT_DEFAULT);
 
-  const handleChange = (event: React.ChangeEvent) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-  };
-  
+  const parseFormData = (formData: FormData): void => {
+    const formJson = Object.fromEntries(formData.entries());
+    result.input.taxYear = Number(formJson["taxYear"]);
+    result.input.superPercentage = Number(formJson["superannuation"]) / 100;
+    result.input.income = Number(formJson["income"]);
+    result.input.includeSuper = !!formJson["includeSuper"];
+    result.input.numberOfHoliday = Number(formJson["numberOfHoliday"]);
+    result.input.isContractRole = !!formJson["isContractRole"];
+    result.input.period = formJson["period"] as Period;
+  }; 
+
   const handleSubmit = (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
-    console.log(formData);
-
-    const r = (formData as DataInput);
-    r.income = Number(r.income);
-    
-    const newResult = calculator.calculate(r);
+    const formData = new FormData(event.target);
+    parseFormData(formData);
+    const newResult = calculator.calculate(result.input);
+    console.log(newResult);
     setResult(newResult);
-  }
+  };
 
   return (
     <>
       <h1>Salary Calculator</h1>
       <div className="w-full max-w-xs">
         <form onSubmit={handleSubmit}>
-          <label htmlFor="income">
-            Pay
-          </label>
-          <input type="number" name="income" id="income" min="1" value={formData.income} onChange={handleChange} />
-          <label htmlFor="period">
-            Time Period
-          </label>
-          <select name="period" id="period" value={formData.period} onChange={handleChange} >
-            <option value="Annually">Annually</option>
-            <option value="Monthly">Monthly</option>
-            <option value="Fortnightly">Fortnightly</option>
-            <option value="Weekly">Weekly</option>
-            <option value="Daily">Daily</option>
-            <option value="Hourly">Hourly</option>
+          <label htmlFor="income">Pay</label>
+          <input type="number" name="income" id="income" min="1" defaultValue={result.input.income} />
+          <label htmlFor="period">Time Period</label>
+          <select name="period" id="period" defaultValue={result.input.period}>
+            {INCOME_PERIOD_LIST.map(p => (
+              <option key={`period-option-${p}`} value={p}>{p}</option>
+            ))}
           </select>
-          <label htmlFor="tax-year">
-            Tax Year
-          </label>
-          <select name="tax-year" id="tax-year" value={formData.taxYear} onChange={handleChange} >
-            <option value="2023">2023 ~ 2024</option>
-            <option value="2024">2024 ~ 2025</option>
-            <option value="2025">2025 ~ 2026</option>
+          <label htmlFor="taxYear">Tax Year</label>
+          <select name="taxYear" id="taxYear" defaultValue={result.input.taxYear}>
+            {TAX_THRESHOLDS.map((year) => (
+              <option key={`taxYear-${year}`} value={year}>{year} ~ {year + 1}</option>
+            ))}        
           </select>
-          <label htmlFor="superannuation">
-            Superannuation (%)
-          </label>
-          <input type="number" name="superannuation" id="superannuation" min="1" max="100" value={formData.superPercentage} onChange={handleChange} />
-          <label htmlFor="include-super">
-            Include Superannuation
-          </label>
-          <input type="checkbox" name="include-super" id="include-super" checked={formData.includeSuper} onChange={handleChange} />
+          <label htmlFor="superannuation">Superannuation (%)</label>
+          <input
+            type="number"
+            name="superannuation"
+            id="superannuation"
+            min="1"
+            max="100"
+            defaultValue={(result.input.superPercentage * 100).toFixed(0)}
+          />
+          <label htmlFor="includeSuper">Include Superannuation</label>
+          <input type="checkbox" name="includeSuper" id="includeSuper" defaultChecked={result.input.includeSuper} />
 
-          <label htmlFor="number-of-holiday">
-            Number of Holiday
-          </label>
-          <input type="number" name="number-of-holiday" id="number-of-holiday" value={formData.numberOfHoliday} onChange={handleChange}  />
+          <label htmlFor="numberOfHoliday">Number of Holiday</label>
+          <input type="number" name="numberOfHoliday" id="nnumberOfHoliday" defaultValue={result.input.numberOfHoliday} />
 
-          <label htmlFor="is-contract-role">
-            Is Contract Role
-          </label>
-          <input type="checkbox" name="is-contract-role" id="is-contract-role" checked={formData.isContractRole} onChange={handleChange} />
+          <label htmlFor="isContractRole">Is Contract Role</label>
+          <input type="checkbox" name="isContractRole" id="isContractRole" defaultChecked={result.input.isContractRole} />
 
           <button type="submit">Calculate</button>
         </form>
-
-        
       </div>
       <div>
-        <ResultView {... {result}} />
+        <ResultView {...{ result }} />
       </div>
-      
     </>
   );
 }
 
-export default App;
+

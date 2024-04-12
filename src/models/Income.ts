@@ -70,7 +70,8 @@ export class IncomeConvert {
     };
 
     const annualIncome = convertToAnnually(income);
+    const convert1 = convert(annualIncome, period);
 
-    return new Income(convert(annualIncome, period), period);
+    return new Income(convert1, period);
   }
 }

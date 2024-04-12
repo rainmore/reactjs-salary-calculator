@@ -1,21 +1,20 @@
 import IncomeView from "./IncomeView";
 import { Result } from "./models/Calculator";
-import { Income, IncomeConvert, INCOME_PERIOD_LIST } from "./models/Income";
+import { Income, IncomeConvert, INCOME_PERIOD_LIST, Period } from "./models/Income";
 
 type ResultViewProps = {
   result: Result;
-};
+}
 
-function ResultView({ result }: ResultViewProps) {
+export default function ResultView({ result }: ResultViewProps) {
   const converter = new IncomeConvert();
-  const alterTaxIncomes = INCOME_PERIOD_LIST.map((p) => converter.convert(new Income(result.afterTaxIncome, result.getIncome().period), p));
-
-  const beforeTaxIncomes = INCOME_PERIOD_LIST.map((p) => converter.convert(result.getIncome(), p));
-
-  const taxes = INCOME_PERIOD_LIST.map((p) => converter.convert(new Income(result.tax, result.getIncome().period), p));
-
-  console.log(alterTaxIncomes, beforeTaxIncomes, taxes);
-
+  const afterTaxIncome = new Income(result.afterAnnualTaxIncome, Period.Annually);
+  const tax = new Income(result.taxAnnual, Period.Annually);
+  const beforeTaxIncome = new Income(result.beforeAnnualTaxIncome, Period.Annually);
+  
+  const taxes = INCOME_PERIOD_LIST.map((p) => converter.convert(tax, p));
+  const alterTaxIncomes = INCOME_PERIOD_LIST.map((p) => converter.convert(afterTaxIncome, p));
+  const beforeTaxIncomes = INCOME_PERIOD_LIST.map((p) => converter.convert(beforeTaxIncome, p));
   return (
     <table>
       <thead>
@@ -23,12 +22,9 @@ function ResultView({ result }: ResultViewProps) {
           <th>
             {result.input.taxYear - 1} - {result.input.taxYear}
           </th>
-          <th>Horely</th>
-          <th>Daily</th>
-          <th>Weekly</th>
-          <th>Fortnightly</th>
-          <th>Monthly</th>
-          <th>Annually</th>
+          {INCOME_PERIOD_LIST.map(p => (
+            <th key={p}>{p}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
@@ -55,4 +51,3 @@ function ResultView({ result }: ResultViewProps) {
   );
 }
 
-export default ResultView;
