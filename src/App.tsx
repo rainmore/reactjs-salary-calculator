@@ -22,7 +22,7 @@ export default function App() {
     result.input.numberOfHoliday = Number(formJson["numberOfHoliday"]);
     result.input.isContractRole = !!formJson["isContractRole"];
     result.input.period = formJson["period"] as Period;
-  }; 
+  };
 
   const handleSubmit = (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
@@ -42,15 +42,19 @@ export default function App() {
           <input type="number" name="income" id="income" min="1" defaultValue={result.input.income} />
           <label htmlFor="period">Time Period</label>
           <select name="period" id="period" defaultValue={result.input.period}>
-            {INCOME_PERIOD_LIST.map(p => (
-              <option key={`period-option-${p}`} value={p}>{p}</option>
+            {INCOME_PERIOD_LIST.map((p) => (
+              <option key={`period-option-${p}`} value={p}>
+                {p}
+              </option>
             ))}
           </select>
           <label htmlFor="taxYear">Tax Year</label>
           <select name="taxYear" id="taxYear" defaultValue={result.input.taxYear}>
             {TAX_THRESHOLDS.map((year) => (
-              <option key={`taxYear-${year}`} value={year}>{year} ~ {year + 1}</option>
-            ))}        
+              <option key={`taxYear-${year}`} value={year}>
+                {year} ~ {year + 1}
+              </option>
+            ))}
           </select>
           <label htmlFor="superannuation">Superannuation (%)</label>
           <input
@@ -79,5 +83,3 @@ export default function App() {
     </>
   );
 }
-
-
