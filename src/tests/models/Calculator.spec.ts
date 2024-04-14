@@ -10,17 +10,16 @@ describe("Test Calculator", () => {
       dataInput.income = 0;
 
       let result = calculator.calculate(dataInput);
-      expect(result.tax).toBe(0);
+      expect(result.incomeTaxAnnual).toBe(0);
 
       dataInput.income = 18200;
       result = calculator.calculate(dataInput);
 
-      expect(result.tax).toBe(0);
+      expect(result.incomeTaxAnnual).toBe(0);
 
       dataInput.income = 18201;
       result = calculator.calculate(dataInput);
-      expect(result.tax).toBe(0.16);
-
+      expect(result.incomeTaxAnnual).toBe(0.16);
     });
 
   });
