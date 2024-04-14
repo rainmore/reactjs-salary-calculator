@@ -30,6 +30,8 @@ export class Result {
   beforeAnnualTaxIncome: number = 0;
   afterAnnualTaxIncome: number = 0;
 
+  incomeTaxAnnual: number = 0;
+  medicareLevelAnnual: number = 0;
   taxAnnual: number = 0;
 
   incomeThresholds: TaxThreshold[] = [];
@@ -75,17 +77,16 @@ export class Calculator {
     )!;
 
     
-    result.taxAnnual = Math.abs((result.highestThreshold.base + (incomeWithoutSuper.amount - 
-      result.highestThreshold.min - 1) * result.highestThreshold.rate));
+    result.incomeTaxAnnual = Math.abs((result.highestThreshold.base + (incomeWithoutSuper.amount - 
+      result.highestThreshold.min + 1) * result.highestThreshold.rate));
+
+    result.medicareLevelAnnual = incomeWithoutSuper.amount * 0.02;
+
+    result.taxAnnual = result.incomeTaxAnnual + result.medicareLevelAnnual;
 
     result.afterAnnualTaxIncome = incomeWithoutSuper.amount - result.taxAnnual;
 
     result.superAnnual = incomeWithoutSuper.amount * income.superPercentage;
-    console.log(result.superAnnual);
-    // TODO to calculate the medicare levi
-// (700 - x ) / 700 = 0.11
-// 700 - x = 0.11 * 700
-// 700 - 0.11 * 700 =  x
     return result;
   }
 }

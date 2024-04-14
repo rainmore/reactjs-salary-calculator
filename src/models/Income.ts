@@ -30,6 +30,8 @@ export class Income {
 }
 
 export class IncomeConvert {
+
+  private weeklyHours: number = 37.5;
   convert(income: Income, period: Period): Income {
     if (period === income.period) {
       return income;
@@ -48,7 +50,7 @@ export class IncomeConvert {
         case Period.Daily:
           return income.amount * 5 * 52;
         case Period.Hourly:
-          return income.amount * 38 * 52;
+          return income.amount * this.weeklyHours * 52;
       }
     };
 
@@ -65,7 +67,7 @@ export class IncomeConvert {
         case Period.Daily:
           return annualIncome / 5 / 52;
         case Period.Hourly:
-          return annualIncome / 38 / 52;
+          return annualIncome / this.weeklyHours / 52;
       }
     };
 
