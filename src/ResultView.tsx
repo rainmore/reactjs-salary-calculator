@@ -1,6 +1,6 @@
 import IncomeView from "./IncomeView";
 import { Result } from "./models/Calculator";
-import { Income, IncomeConvert, INCOME_PERIOD_LIST, Period } from "./models/Income";
+import { Income, IncomeConvert, INCOME_PERIOD_LIST, Period, MEDICARE_LEVY_RATE, WEEKLY_WORKING_HOURS } from "./models/Income";
 
 type ResultViewProps = {
   result: Result;
@@ -26,7 +26,8 @@ export default function ResultView({ result }: ResultViewProps) {
     <table className="text-surface min-w-full table-auto text-left text-sm font-light">
       <caption className="px-6 py-4 caption-bottom bg-neutral-100 text-left text-sm ">
         Income tax: {result.highestThreshold?.description} <br />
-        Medicare levy: 2%
+        Medicare levy: {MEDICARE_LEVY_RATE * 100}% <br />
+        Weekly working hours: {WEEKLY_WORKING_HOURS}
       </caption>
       <thead className="border-b border-neutral-200 bg-neutral-50 font-medium">
         <tr>

@@ -1,3 +1,5 @@
+import { Super } from "./Super";
+
 export enum Period {
   Annually = "Annually",
   Monthly = "Monthly",
@@ -16,12 +18,16 @@ export const INCOME_PERIOD_LIST = [
   Period.Annually,
 ];
 
+export const MEDICARE_LEVY_RATE = 0.02;
+
+export const WEEKLY_WORKING_HOURS = 37.5;
+
 export class Income {
   amount: number = 0;
   period: Period = Period.Annually;
 
   includeSuper: boolean = false;
-  superPercentage: number = 11;
+  superPercentage: number = new Super().getRateByYear(new Date().getFullYear());
 
   constructor(amount: number, period: Period) {
     this.amount = amount;
@@ -31,7 +37,6 @@ export class Income {
 
 export class IncomeConvert {
 
-  private weeklyHours: number = 37.5;
   convert(income: Income, period: Period): Income {
     if (period === income.period) {
       return income;
@@ -50,7 +55,7 @@ export class IncomeConvert {
         case Period.Daily:
           return income.amount * 5 * 52;
         case Period.Hourly:
-          return income.amount * this.weeklyHours * 52;
+          return income.amount * WEEKLY_WORKING_HOURS * 52;
       }
     };
 
@@ -67,7 +72,7 @@ export class IncomeConvert {
         case Period.Daily:
           return annualIncome / 5 / 52;
         case Period.Hourly:
-          return annualIncome / this.weeklyHours / 52;
+          return annualIncome / WEEKLY_WORKING_HOURS / 52;
       }
     };
 

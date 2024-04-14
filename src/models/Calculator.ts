@@ -1,4 +1,4 @@
-import { Income, IncomeConvert, Period } from "./Income";
+import { Income, IncomeConvert, MEDICARE_LEVY_RATE, Period } from "./Income";
 import { Super } from "./Super";
 import { TaxThreshold, TaxThresholds } from "./TaxThresholds";
 
@@ -80,7 +80,7 @@ export class Calculator {
     result.incomeTaxAnnual = Math.abs((result.highestThreshold.base + (incomeWithoutSuper.amount - 
       result.highestThreshold.min + 1) * result.highestThreshold.rate));
 
-    result.medicareLevelAnnual = incomeWithoutSuper.amount * 0.02;
+    result.medicareLevelAnnual = incomeWithoutSuper.amount * MEDICARE_LEVY_RATE;
 
     result.taxAnnual = result.incomeTaxAnnual + result.medicareLevelAnnual;
 
