@@ -16,8 +16,8 @@ export default function ResultView({ result }: ResultViewProps) {
   const alterTaxIncomes = INCOME_PERIOD_LIST.map((p) => converter.convert(afterTaxIncome, p));
   const beforeTaxIncomes = INCOME_PERIOD_LIST.map((p) => converter.convert(beforeTaxIncome, p));
   return (
-    <table className="table-auto min-w-full text-left text-sm font-light text-surface dark:text-white">
-      <thead className="border-b border-neutral-200 bg-neutral-50 font-medium dark:border-white/10 dark:text-neutral-800">
+    <table className="table-auto min-w-full text-left text-sm font-light text-surface">
+      <thead className="border-b border-neutral-200 bg-neutral-50 font-medium">
         <tr>
           <th  className="px-6 py-4">
             {result.input.taxYear - 1} - {result.input.taxYear}
@@ -28,19 +28,19 @@ export default function ResultView({ result }: ResultViewProps) {
         </tr>
       </thead>
       <tbody>
-        <tr className="border-b border-neutral-200 transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-white/10 dark:hover:bg-neutral-600">
+        <tr className="border-b border-neutral-200 transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-white/10">
           <th  className="whitespace-nowrap px-6 py-4 font-medium">After Tax</th>
           {alterTaxIncomes.map((income) => (
             <IncomeView key={`after-tax-${income.period}`} {...{ income }} />
           ))}
         </tr>
-        <tr className="border-b border-neutral-200 transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-white/10 dark:hover:bg-neutral-600">
+        <tr className="border-b border-neutral-200 transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-white/10">
           <th className="whitespace-nowrap px-6 py-4 font-medium">Taxable Income</th>
           {beforeTaxIncomes.map((income) => (
             <IncomeView key={`before-tax-${income.period}`} {...{ income }} />
           ))}
         </tr>
-        <tr className="border-b border-neutral-200 transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-white/10 dark:hover:bg-neutral-600">
+        <tr className="border-b border-neutral-200 transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-white/10">
           <th  className="whitespace-nowrap px-6 py-4 font-medium">Total tax</th>
           {taxes.map((income) => (
             <IncomeView key={`tax-${income.period}`} {...{ income }} />

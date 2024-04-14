@@ -18,8 +18,8 @@ export default function App() {
 
   return (
     <>
-      <h1>Salary Calculator</h1>
-      <div className="w-full max-w-xs">
+      <h1 className="font-bold text-4xl mb-10">Salary Calculator</h1>
+      <div>
         <FormView {...{ calculator, result, handleResult}} />
       </div>
       <div>
